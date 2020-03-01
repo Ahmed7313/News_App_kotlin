@@ -5,11 +5,14 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.noon.newsapp.Data.pojo.NewsModel
 import com.noon.newsapp.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var newsAdapter : NewsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,16 +20,22 @@ class MainActivity : AppCompatActivity() {
 
         var newsViewModel : NewsViewModel = ViewModelProviders.of(this).get(NewsViewModel::class.java)
 
-        var newsAdapter  = NewsAdapter()
-        news_list_view.layoutManager = LinearLayoutManager(this)
-        news_list_view.adapter = newsAdapter
 
+        initRecycleView()
         newsViewModel.getNews()
         newsViewModel.mutableLiveData.observe(this, object :Observer<List<NewsModel>>{
-            override fun onChanged(t: List<NewsModel>?) {
-                newsAdapter.setList(t)
+            override fun onChanged(t: List<NewsModel>) {
+                newsAdapter.submitList(t)
             }
 
         })
+    }
+
+    private fun initRecycleView () {
+        recycle_view.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            newsAdapter = NewsAdapter()
+            adapter = newsAdapter
+        }
     }
 }

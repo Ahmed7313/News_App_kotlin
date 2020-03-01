@@ -5,37 +5,26 @@ import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.StringBuilder
 
- class NewsClint() {
+object NewsClint {
 
-      private var retrofit: Retrofit
-      private var newsInterface : NewsInterface
-      private val okkHttp: OkHttpClient.Builder = OkHttpClient.Builder()
+     private const val BAS_URL : String = "https://newsapi.org/"
+    const val API_KEY : String = "4953cbce156b4f44b5a8037332045a90"
+
+     private val okHttp : OkHttpClient.Builder = OkHttpClient.Builder()
+
+     private val builder : Retrofit.Builder = Retrofit.Builder().
+         baseUrl(BAS_URL)
+         .addConverterFactory(GsonConverterFactory.create())
+         .client(okHttp.build())
+
+     private val retrofit : Retrofit = builder.build()
+
+     fun <T> buildService (serviveType : Class <T>) : T {
+         return retrofit.create(serviveType)
+     }
 
 
-      init {
-            val builder: Retrofit.Builder = Retrofit.Builder()
-                 .baseUrl(Companion.BASE_URL)
-                 .addConverterFactory(GsonConverterFactory.create())
-                 .client(okkHttp.build())
-            retrofit = builder.build()
-
-            newsInterface = retrofit.create(NewsInterface::class.java)
-      }
-
-       fun getNewsINSTANCE (): NewsClint {
-           var newsClint : NewsClint = NewsClint()
-           return newsClint
-       }
-
-      companion object {
-          private const val BASE_URL: String = "http://newsapi.org/"
-          const val API_KEY : String = "4953cbce156b4f44b5a8037332045a90"
-
-      }
-
-       public fun getNews () : Call<List<NewsModel>> {
-             return newsInterface.getBusinessNews()
-       }
 
 }

@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface NewsInterface {
 
-    @GET("v2/top-headlines?country=us&category=business&apiKey=${NewsClint.API_KEY}")
+    @GET("v2/everything?q=bitcoin&from=2020-01-29&sortBy=publishedAt&apiKey=${NewsClint.API_KEY}")
     fun getBusinessNews () : Call<List<NewsModel>>
 }
