@@ -1,11 +1,17 @@
 package com.noon.newsapp.Data.data
 
+import com.noon.newsapp.Data.pojo.Article
 import com.noon.newsapp.Data.pojo.NewsModel
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface NewsInterface {
 
-    @GET("v2/everything?q=bitcoin&from=2020-01-29&sortBy=publishedAt&apiKey=${NewsClint.API_KEY}")
-    fun getBusinessNews () : Call<List<NewsModel>>
+    @GET("top-headlines")
+    fun getNews (@Query("country") country :String,
+                 @Query("category") category: String,
+                 @Query("apiKey") apiKey : String
+
+    ) : Call<List<Article>>
 }

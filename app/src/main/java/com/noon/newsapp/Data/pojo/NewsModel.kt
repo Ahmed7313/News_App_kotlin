@@ -6,6 +6,6 @@ data class NewsModel (var id : String,
                       var title : String,
                       var description : String,
                       var url : String,
-                      var urlToImage : Int,
+                      var urlToImage : String,
                       var publishedAt : String,
                       var content : String)

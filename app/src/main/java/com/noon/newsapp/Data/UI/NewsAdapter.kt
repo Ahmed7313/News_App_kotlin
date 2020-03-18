@@ -4,13 +4,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.noon.newsapp.Data.pojo.Article
 import com.noon.newsapp.Data.pojo.NewsModel
+import com.noon.newsapp.Data.pojo.Utils
 import com.noon.newsapp.R
 import com.squareup.picasso.Picasso
 import java.util.*
@@ -20,7 +23,7 @@ import java.lang.Exception
 import kotlin.collections.ArrayList
 
 class NewsAdapter (): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var newsList: List<NewsModel> = ArrayList()
+    var newsList: List<Article> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return NewstViewHolder(
@@ -37,35 +40,47 @@ class NewsAdapter (): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    fun submitList (itemList : List<NewsModel>) {
+    fun submitList (itemList : List<Article>) {
         newsList = itemList
     }
 
     inner class NewstViewHolder constructor(
-        itemView : View
-    ) : RecyclerView.ViewHolder(itemView){
+        itemView: View
+    ) : RecyclerView.ViewHolder(itemView) {
 
-        var newsTitle: TextView = itemView.news_title
-        var newsName: TextView = itemView.news_name
+        var progressbar: ProgressBar = itemView.adapterProgressBar
+        var title: TextView = itemView.title
+        var desc: TextView = itemView.desc
         var newsAuthor: TextView = itemView.news_author
-        var newsDate: TextView = itemView.news_date
+        var publishedDate: TextView = itemView.publishedAt
+        var source: TextView = itemView.source
+        var time: TextView = itemView.time
         var newsImage: ImageView = itemView.news_image
 
-        fun bind (newsModel: NewsModel){
-            newsTitle.setText(newsModel.title)
-            newsName.setText(newsModel.name)
+        fun bind(newsModel: Article) {
+            title.setText(newsModel.title)
+            desc.setText(newsModel.description)
             newsAuthor.setText(newsModel.author)
-            newsDate.setText(newsModel.publishedAt)
+            publishedDate.setText(newsModel.publishedAt)
+            progressbar.visibility
+            source.setText(newsModel.source.name)
+
+
+            time.setText("u2022" + Utils.DateToTimeFormat(newsModel.publishedAt))
+            publishedDate.setText(Utils.DateFormat(newsModel.publishedAt))
 
             val requestOption = RequestOptions()
-                .placeholder(R.drawable.ic_launcher_background).error(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_background)
 
             Glide.with(itemView.context)
                 .applyDefaultRequestOptions(requestOption)
                 .load(newsModel.urlToImage)
                 .into(newsImage)
 
+
         }
+
     }
 
     override fun getItemCount(): Int {

@@ -9,7 +9,7 @@ import java.lang.StringBuilder
 
 object NewsClint {
 
-     private const val BAS_URL : String = "https://newsapi.org/"
+     private const val BAS_URL : String = "http://newsapi.org/v2/"
     const val API_KEY : String = "4953cbce156b4f44b5a8037332045a90"
 
      private val okHttp : OkHttpClient.Builder = OkHttpClient.Builder()

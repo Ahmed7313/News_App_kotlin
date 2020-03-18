@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.noon.newsapp.Data.pojo.Article
 import com.noon.newsapp.Data.pojo.NewsModel
 import com.noon.newsapp.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,8 +24,8 @@ class MainActivity : AppCompatActivity() {
 
         initRecycleView()
         newsViewModel.getNews()
-        newsViewModel.mutableLiveData.observe(this, object :Observer<List<NewsModel>>{
-            override fun onChanged(t: List<NewsModel>) {
+        newsViewModel.mutableLiveData.observe(this, object :Observer<List<Article>>{
+            override fun onChanged(t: List<Article>) {
                 newsAdapter.submitList(t)
             }
 
