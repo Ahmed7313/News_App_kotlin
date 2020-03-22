@@ -1,7 +1,11 @@
 package com.noon.newsapp.Data.UI
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.os.Build
+import android.os.Bundle
+import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +13,9 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.Nullable
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
@@ -22,6 +29,7 @@ import com.bumptech.glide.request.target.Target
 import com.noon.newsapp.Data.pojo.Article
 import com.noon.newsapp.Data.pojo.Utils
 import com.noon.newsapp.R
+import java.net.URI.create
 
 class NewsAdapter (
     private val articles: List<Article>,
@@ -73,6 +81,18 @@ class NewsAdapter (
         holders.time.text = " \u2022 " + Utils.DateToTimeFormat(model.publishedAt)
         holders.published_ad.text = Utils.DateFormat(model.publishedAt)
         holders.author.text = model.author
+
+        holders.cardView.setOnClickListener {
+            val intent = Intent(context, NewsDetailActivity::class.java)
+            intent.putExtra("url", model.url)
+            intent.putExtra("title", model.title)
+            intent.putExtra("img", model.urlToImage)
+            intent.putExtra("date", model.publishedAt)
+            intent.putExtra("source", model.source.name)
+            intent.putExtra("author", model.author)
+
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -99,6 +119,7 @@ class NewsAdapter (
         var time: TextView
         var imageView: ImageView
         var progressBar: ProgressBar
+        var cardView : CardView
         var onItemClickListener: OnItemClickListener?
         override fun onClick(v: View) {
             onItemClickListener!!.onItemClick(v, adapterPosition)
@@ -114,6 +135,7 @@ class NewsAdapter (
             time = itemView.findViewById(R.id.time)
             imageView = itemView.findViewById(R.id.img)
             progressBar = itemView.findViewById(R.id.prograss_load_photo)
+            cardView = itemView.findViewById(R.id.cardView)
             this.onItemClickListener = onItemClickListener
         }
     }
