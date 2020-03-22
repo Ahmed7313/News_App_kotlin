@@ -1,13 +1,14 @@
 package com.noon.newsapp.Data.UI
 
-import android.content.Intent
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
+import android.app.SearchManager
+import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
-import android.view.View
-import android.widget.Adapter
-import android.widget.ImageView
-import androidx.core.app.ActivityOptionsCompat
+import android.view.Menu
+import android.widget.SearchView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -15,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.noon.newsapp.Data.pojo.Article
 import com.noon.newsapp.R
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.ArrayList
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,6 +48,38 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_main, menu)
+        val searchManager =
+            getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView: SearchView = menu.findItem(R.id.action_search).actionView as SearchView
+        val searchMenuItem = menu.findItem(R.id.action_search)
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        searchView.setQueryHint("Search Latest News...")
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                if (query.length > 2) {
+
+                } else {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Type more than two letters!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
+        searchMenuItem.icon.setVisible(false, false)
+        return true
     }
 
 }
