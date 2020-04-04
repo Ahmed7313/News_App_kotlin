@@ -1,4 +1,4 @@
-package com.noon.newsapp.Data.pojo
+package com.noon.data.pojo.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

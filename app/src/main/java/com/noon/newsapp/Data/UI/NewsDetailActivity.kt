@@ -17,9 +17,10 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.noon.newsapp.Data.pojo.Utils.DateFormat
-import com.noon.newsapp.Data.pojo.Utils.DateToTimeFormat
-import com.noon.newsapp.Data.pojo.Utils.randomDrawbleColor
+
+import com.noon.data.pojo.model.Utils.DateFormat
+import com.noon.data.pojo.model.Utils.DateToTimeFormat
+import com.noon.data.pojo.model.Utils.randomDrawbleColor
 import com.noon.newsapp.R
 
 class NewsDetailActivity : AppCompatActivity(), OnOffsetChangedListener {

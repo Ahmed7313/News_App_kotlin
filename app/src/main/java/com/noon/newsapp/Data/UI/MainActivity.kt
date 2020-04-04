@@ -2,33 +2,35 @@ package com.noon.newsapp.Data.UI
 
 import android.app.SearchManager
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.noon.newsapp.Data.pojo.Article
+import com.noon.data.pojo.model.Article
 import com.noon.newsapp.R
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var newsAdapter : NewsAdapter
     private var articles: List<Article> = ArrayList()
     private var adapter: NewsAdapter? = null
     private val TAG = MainActivity::class.java.simpleName
+
+    private val newsViewModel : NewsViewModel by viewModel()
+    val myViewModel : NewsViewModel by viewModel()
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var newsViewModel : NewsViewModel = ViewModelProviders.of(this).get(NewsViewModel::class.java)
 
 
         //       initRecycleView()
@@ -37,17 +39,15 @@ class MainActivity : AppCompatActivity() {
         recycleView.layoutManager = LinearLayoutManager(this)
         recycleView.itemAnimator = DefaultItemAnimator()
 
-        newsViewModel.getNews()
 
-        newsViewModel.mutableLiveData.observe(this, object :Observer<List<Article>>{
-            override fun onChanged(t: List<Article>) {
+
+
+        myViewModel._articles.observe(this,
+            Observer { t ->
                 adapter = NewsAdapter(t, this@MainActivity)
                 articles = t
                 recycleView.adapter = adapter
-
-            }
-
-        })
+            })
 
     }
 
@@ -83,3 +83,4 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+

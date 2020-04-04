@@ -1,4 +1,4 @@
-package com.noon.newsapp.Data.pojo
+package com.noon.data.pojo.model
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
