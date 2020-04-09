@@ -11,5 +11,5 @@ interface NewsInterface {
     suspend fun getNews (@Query("country") country :String,
                  @Query("apiKey") apiKey : String
 
-    ) : Call<News>
+    ) : News
 }
